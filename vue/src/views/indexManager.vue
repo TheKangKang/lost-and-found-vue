@@ -35,7 +35,8 @@
             </template>
             <el-menu-item index="/users">用户信息</el-menu-item>
             <el-menu-item index="/managers">管理员信息</el-menu-item>
-<!--            <el-menu-item index="/indexManager">系统首页</el-menu-item>-->
+            <el-menu-item index="/goodsManage">商品信息</el-menu-item>
+            <!--            <el-menu-item index="/indexManager">系统首页</el-menu-item>-->
           </el-submenu>
         </el-menu>
       </el-aside>

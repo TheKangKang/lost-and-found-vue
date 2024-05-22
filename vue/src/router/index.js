@@ -47,6 +47,11 @@ const routes = [
     name: 'managers',
     component: () => import('../views/managers'),
   },
+  {
+    path: '/goodsManage',
+    name: 'goodsManage',
+    component: () => import('../views/goodsManage'),
+  },
 ]
 
 localStorage.setItem("baseURL", "http://127.0.0.1:8000/")

@@ -45,7 +45,8 @@
           <i :class="collapseIcon" style="font-size: 26px;" @click="handleCollapse"></i>
           <el-breadcrumb separator-class="el-icon-arrow-right" style="margin-left: 20px;">
             <el-breadcrumb-item :to="{ path: '/indexManager' }">系统首页</el-breadcrumb-item>
-            <el-breadcrumb-item>我的商品</el-breadcrumb-item>
+            <el-breadcrumb-item>信息管理</el-breadcrumb-item>
+            <el-breadcrumb-item>商品管理</el-breadcrumb-item>
           </el-breadcrumb>
 
           <div style="flex: 1; width: 0; display: flex; align-items: center; justify-content: flex-end;">
@@ -60,7 +61,9 @@
                 <el-dropdown-item @click.native="logout()">退出登录</el-dropdown-item>
               </el-dropdown-menu>
             </el-dropdown>
+
           </div>
+
         </el-header>
         <el-main>
           <el-form :inline="true" style="margin-top: 20px;">
@@ -99,17 +102,17 @@
             </el-table-column>
             <el-table-column type="index" label="序号" align="center" width="60">
             </el-table-column>
-            <el-table-column prop="real_name" label="商品名称" align="center" width="200">
+            <el-table-column prop="name" label="商品名称" align="center" width="60">
             </el-table-column>
-            <el-table-column prop="mobile" label="价格" align="center" width="60">
+            <el-table-column prop="price" label="价格" align="center" width="60">
             </el-table-column>
-            <el-table-column prop="mobile" label="图片" align="center" width="200">
+            <el-table-column prop="photo" label="图片" align="center" width="120">
             </el-table-column>
-            <el-table-column prop="gender" label="卖方" align="center" width="100">
+            <el-table-column prop="owner" label="卖方" align="center" width="200">
             </el-table-column>
-            <el-table-column prop="gender" label="联系方式" align="center" width="100">
+            <el-table-column prop="mobile" label="联系方式" align="center">
             </el-table-column>
-            <el-table-column prop="gender" label="商品状态" align="center" width="100">
+            <el-table-column prop="status" label="状态" align="center">
             </el-table-column>
             <el-table-column label="操作" width="180" align="center">
               <template slot-scope="scope">
@@ -186,7 +189,7 @@
             </el-row>
           </el-dialog>
         </el-main>
-        <el-footer style="height: 30px;">跳蚤市场系统 版权所有：zoushuxing | 2024-3-1</el-footer>
+        <el-footer style="height: 30px;">失物招领系统 版权所有：zoushuxing | 2024-3-1</el-footer>
       </el-container>
     </el-container>
   </div>
@@ -196,7 +199,7 @@
 import axios from "axios";
 
 export default {
-  name: "FoundView",
+  name: "goodsManage",
   data() {
     return{
       isCollapse: false,
@@ -484,7 +487,7 @@ export default {
     getUsers: function () {
       let that = this;
       axios
-          .get(this.baseURL + "getAll/mygoods/")
+          .get(this.baseURL + "getAll/user/")
           .then(function (res) {
             //console.log(res);
             if (res.data.code === 1) {
