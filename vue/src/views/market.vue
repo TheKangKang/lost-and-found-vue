@@ -103,9 +103,9 @@
             </el-table-column>
             <el-table-column prop="price" label="价格" align="center" width="60">
             </el-table-column>
-            <el-table-column prop="image" label="图片" align="center" width="200">
-              <template>
-                <img :src="userForm.imageUrl" style="width: 50px;height: 50px;">
+            <el-table-column label="图片" align="center" width="200">
+              <template slot-scope="scope">
+                <img :src="scope.row.imageUrl" style="width: 50px;height: 50px;" @click="showBigImage(scope.row.imageUrl)">
               </template>
             </el-table-column>
             <el-table-column prop="owner" label="卖方" align="center" width="100">
@@ -192,7 +192,12 @@
               <el-button type="info" size="mini" @click="closeDialog('userForm')">取消</el-button>
             </el-row>
           </el-dialog>
+          <el-dialog :visible.sync="BigImageVisible" :close-on-click-modal="false">
+            <img :src="bigImageUrl" style="width: 100%;">
+          </el-dialog>
         </el-main>
+
+
         <el-footer style="height: 30px;">跳蚤市场系统 版权所有：zoushuxing | 2024-3-1</el-footer>
       </el-container>
     </el-container>
@@ -217,6 +222,8 @@ export default {
       pagesize: 10,//每页显示多少行
       selectStudents: [],
       total: 0, //总行数
+      BigImageVisible: false,
+      bigImageUrl: '',
 
       userForm: {
         id:'',
@@ -322,6 +329,10 @@ export default {
 
       that.userForm.images = this.getImageBySno(row.username);
       that.userForm.imageUrl = that.baseURL + "media/" + that.userForm.image;
+    },
+    showBigImage(url) {
+      this.BigImageVisible = true;
+      this.bigImageUrl = url;
     },
     updateUser(row) {
       let that = this;
@@ -557,12 +568,12 @@ export default {
         lastUrl = 'addMarket/';
         message = "注册成功！";
       }
-
+      //console.log(that.userForm.imageUrl);
       axios
           .post(that.baseURL + lastUrl, that.userForm)
           .then(res => {
             if (res.data.code === 1) {
-              console.log(that.userForm.image);
+              //console.log(that.userForm.image);
               that.Users = res.data.data;
               that.total = res.data.data.length;
               that.$message({
