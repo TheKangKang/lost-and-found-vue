@@ -181,7 +181,7 @@
               </el-form-item>
             </el-form>
             <el-row style="text-align: right;">
-              <el-button type="primary" size="mini"
+              <el-button type="primary" size="mini" :disabled="isView"
                          @click="submitAddForm('userForm')">确认</el-button>
               <el-button type="info" size="mini" @click="closeDialog('userForm')">取消</el-button>
             </el-row>

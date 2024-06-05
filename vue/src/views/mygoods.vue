@@ -45,7 +45,7 @@
           <i :class="collapseIcon" style="font-size: 26px;" @click="handleCollapse"></i>
           <el-breadcrumb separator-class="el-icon-arrow-right" style="margin-left: 20px;">
             <el-breadcrumb-item :to="{ path: '/indexManager' }">系统首页</el-breadcrumb-item>
-            <el-breadcrumb-item>我的商品</el-breadcrumb-item>
+            <el-breadcrumb-item>跳蚤广场</el-breadcrumb-item>
           </el-breadcrumb>
 
           <div style="flex: 1; width: 0; display: flex; align-items: center; justify-content: flex-end;">
@@ -99,26 +99,33 @@
             </el-table-column>
             <el-table-column type="index" label="序号" align="center" width="60">
             </el-table-column>
-            <el-table-column prop="real_name" label="商品名称" align="center" width="200">
+            <el-table-column prop="name" label="商品名称" align="center" width="200">
             </el-table-column>
-            <el-table-column prop="mobile" label="价格" align="center" width="60">
+            <el-table-column prop="price" label="价格" align="center" width="60">
             </el-table-column>
-            <el-table-column prop="mobile" label="图片" align="center" width="200">
+            <el-table-column label="图片" align="center" width="200">
+              <template slot-scope="scope">
+                <img :src="scope.row.imageUrl" style="width: 50px;height: 50px;" @click="showBigImage(scope.row.imageUrl)">
+              </template>
             </el-table-column>
-            <el-table-column prop="gender" label="卖方" align="center" width="100">
+            <el-table-column prop="owner" label="卖方" align="center" width="100">
             </el-table-column>
-            <el-table-column prop="gender" label="联系方式" align="center" width="100">
+            <el-table-column prop="nickname" label="卖方昵称" align="center" width="100">
             </el-table-column>
-            <el-table-column prop="gender" label="商品状态" align="center" width="100">
+            <el-table-column prop="catagory" label="分类" align="center" width="100">
+            </el-table-column>
+            <el-table-column prop="mobile" label="联系方式" align="center" width="100">
+            </el-table-column>
+            <el-table-column prop="status" label="商品状态" align="center" width="100">
             </el-table-column>
             <el-table-column label="操作" width="180" align="center">
               <template slot-scope="scope">
                 <el-button type="success" size="mini" icon="el-icon-more"
                            @click="viewUser(scope.row)" circle></el-button>
-                <el-button type="primary" size="mini" icon="el-icon-edit"
-                           @click="updateUser(scope.row)" circle></el-button>
-                <el-button type="danger" size="mini" icon="el-icon-delete"
-                           @click="deleteUser(scope.row)" circle></el-button>
+                                <el-button type="primary" size="mini" icon="el-icon-edit"
+                                           @click="updateUser(scope.row)" circle></el-button>
+                                <el-button type="danger" size="mini" icon="el-icon-delete"
+                                           @click="deleteUser(scope.row)" circle></el-button>
               </template>
             </el-table-column>
           </el-table>
@@ -140,52 +147,57 @@
 
           <el-dialog :title="dialogTitle" :visible.sync="dialogFormVisible" :close-on-click-modal="false" width="780px"
                      @close="closeDialog('userForm')">
-            <el-form :model="userForm" :rules="rules" ref="userForm" :inline="true"
+            <el-form :model="userForm" ref="userForm" :inline="true"
                      style="margin-left: 20px;" label-width="110px" label-position="right">
               <el-upload class="avatar-uploader" action="#"
                          :show-file-list="false" :http-request="uploadPicturePost" :disabled="isView" style="text-align: center;margin-bottom: 20px;margin-left: 250px;">
                 <img v-if="userForm.image" :src="userForm.imageUrl" class="avatar">
                 <i v-else class="el-icon-plus avatar-uploader-icon"></i>
               </el-upload>
-              <el-form-item label="用户名:" prop="username" size="mini">
-                <el-input v-model="userForm.username" :disabled="isView || isEdit"
+              <el-form-item label="商品名称:" prop="name" size="mini">
+                <el-input v-model="userForm.name" :disabled="isView || isEdit"
                           suffix-icon="el-icon-edit"></el-input>
               </el-form-item>
-              <el-form-item label="密码:" prop="password" size="mini">
-                <el-input v-model="userForm.password" :disabled="isView"
+              <el-form-item label="价格:" prop="price" size="mini">
+                <el-input v-model="userForm.price" :disabled="isView"
                           suffix-icon="el-icon-edit"></el-input>
               </el-form-item>
-              <el-form-item label="姓名:" prop="real_name" size="mini">
-                <el-input v-model="userForm.real_name" :disabled="isView"
+              <el-form-item label="卖方:" prop="owner" size="mini">
+                <el-input v-model="userForm.owner" :disabled="isView"
                           suffix-icon="el-icon-edit"></el-input>
               </el-form-item>
-              <el-form-item label="性别:" prop="gender" size="mini">
-                <el-select v-model="userForm.gender" :disabled="isView" placeholder="请选择性别">
+              <el-form-item label="卖方昵称:" prop="nickname" size="mini">
+                <el-input v-model="userForm.nickname" :disabled="isView"
+                          suffix-icon="el-icon-edit"></el-input>
+              </el-form-item>
+              <el-form-item label="分类:" prop="category" size="mini">
+                <el-select v-model="userForm.catagory" :disabled="isView" placeholder="请选择分类">
                   <el-option value="男"></el-option>
                   <el-option value="女"></el-option>
                 </el-select>
               </el-form-item>
 
-              <el-form-item label="手机号:" prop="mobile" size="mini">
+              <el-form-item label="联系方式:" prop="mobile" size="mini">
                 <el-input v-model="userForm.mobile" :disabled="isView"
                           suffix-icon="el-icon-edit"></el-input>
               </el-form-item>
-              <el-form-item label="邮箱:" prop="email" size="mini">
-                <el-input v-model="userForm.email" :disabled="isView"
+              <el-form-item label="商品状态:" prop="status" size="mini">
+                <el-input v-model="userForm.status" :disabled="isView"
                           suffix-icon="el-icon-edit"></el-input>
-              </el-form-item>
-              <el-form-item label="家庭地址:" prop="address" size="mini">
-                <el-input v-model="userForm.address" :disabled="isView"
-                          suffix-icon="el-icon-edit" style="width: 262%;"></el-input>
               </el-form-item>
             </el-form>
             <el-row style="text-align: right;">
-              <el-button type="primary" size="mini"
+              <el-button type="primary" size="mini" :disabled="isView"
                          @click="submitAddForm('userForm')">确认</el-button>
               <el-button type="info" size="mini" @click="closeDialog('userForm')">取消</el-button>
             </el-row>
           </el-dialog>
+          <el-dialog :visible.sync="BigImageVisible" :close-on-click-modal="false">
+            <img :src="bigImageUrl" style="width: 100%;">
+          </el-dialog>
         </el-main>
+
+
         <el-footer style="height: 30px;">跳蚤市场系统 版权所有：zoushuxing | 2024-3-1</el-footer>
       </el-container>
     </el-container>
@@ -196,7 +208,7 @@
 import axios from "axios";
 
 export default {
-  name: "FoundView",
+  name: "mygoods",
   data() {
     return{
       isCollapse: false,
@@ -210,52 +222,54 @@ export default {
       pagesize: 10,//每页显示多少行
       selectStudents: [],
       total: 0, //总行数
+      BigImageVisible: false,
+      bigImageUrl: '',
 
       userForm: {
         id:'',
-        username: '',
-        password: '',
-        real_name:'',
-        gender:'',
-        mobile:'',
-        email:'',
-        address:'',
+        name: '',
+        price: '',
         image:'',
+        owner:'',
+        nickname:'',
+        catagory:'',
+        mobile:'',
+        status:'',
         imageUrl:'',
       },
-      rules: {
-        // 设置账户效验规则
-        username: [
-          {required: true, message: '请输入账户', trigger: 'blur'},
-          {min: 3, max: 15, message: '长度在 3 到 15 个字符的账户', trigger: 'blur'}
-        ],
-        // 设置密码效验规则
-        password: [
-          {required: true, message: '请输入密码', trigger: 'blur'},
-          {min: 6, max: 15, message: '长度在 6 到 15 个字符的密码', trigger: 'blur'}
-        ],
-        real_name: [
-          { required: true, message: "姓名不能为空", trigger: "blur" },
-          { pattern: /^[\u4e00-\u9fa5]{2,5}$/, message: "姓名必须是2-5个汉字", trigger: "blur" }
-        ],
-        gender: [
-          { required: true, message: "性别不能为空", trigger: "change" },
-        ],
-        birthday: [
-          { required: true, message: "出生日期不能为空", trigger: "change" },
-        ],
-        mobile: [
-          { required: true, message: "手机号不能为空", trigger: "blur" },
-          { pattern: /^[1]\d{10}$/, message: "手机号格式有误", trigger: "blur" }
-        ],
-        email: [
-          { required: true, message: "邮箱不能为空", trigger: "blur" },
-          { pattern: /^[0-9a-zA-Z]+([\.\-_]*[0-9a-zA-Z]+)*@([0-9a-zA-Z]+[\-_]*[0-9a-zA-Z]+\.)+[0-9a-zA-Z]{2,6}$/, message: "邮箱格式有误", trigger: "blur" }
-        ],
-        address: [
-          { required: true, message: "地址不能为空", trigger: "blur" },
-        ],
-      },
+      // rules: {
+      //   // 设置账户效验规则
+      //   username: [
+      //     {required: true, message: '请输入账户', trigger: 'blur'},
+      //     {min: 3, max: 15, message: '长度在 3 到 15 个字符的账户', trigger: 'blur'}
+      //   ],
+      //   // 设置密码效验规则
+      //   password: [
+      //     {required: true, message: '请输入密码', trigger: 'blur'},
+      //     {min: 6, max: 15, message: '长度在 6 到 15 个字符的密码', trigger: 'blur'}
+      //   ],
+      //   real_name: [
+      //     { required: true, message: "姓名不能为空", trigger: "blur" },
+      //     { pattern: /^[\u4e00-\u9fa5]{2,5}$/, message: "姓名必须是2-5个汉字", trigger: "blur" }
+      //   ],
+      //   gender: [
+      //     { required: true, message: "性别不能为空", trigger: "change" },
+      //   ],
+      //   birthday: [
+      //     { required: true, message: "出生日期不能为空", trigger: "change" },
+      //   ],
+      //   mobile: [
+      //     { required: true, message: "手机号不能为空", trigger: "blur" },
+      //     { pattern: /^[1]\d{10}$/, message: "手机号格式有误", trigger: "blur" }
+      //   ],
+      //   email: [
+      //     { required: true, message: "邮箱不能为空", trigger: "blur" },
+      //     { pattern: /^[0-9a-zA-Z]+([\.\-_]*[0-9a-zA-Z]+)*@([0-9a-zA-Z]+[\-_]*[0-9a-zA-Z]+\.)+[0-9a-zA-Z]{2,6}$/, message: "邮箱格式有误", trigger: "blur" }
+      //   ],
+      //   address: [
+      //     { required: true, message: "地址不能为空", trigger: "blur" },
+      //   ],
+      // },
 
       baseURL: localStorage.getItem("baseURL"),
 
@@ -281,14 +295,14 @@ export default {
     },
     //批量删除
     deleteUsers() {
-      this.$confirm('是否确认批量删除' + this.selectUsers.length + '个用户信息', '提示', {
+      this.$confirm('是否确认批量删除' + this.selectUsers.length + '个商品信息', '提示', {
         confirmButtonText: '确定',
         confirmButtonClass: '取消',
         type: 'warning'
       }).then(() => {
         let that = this;
         axios
-            .post(that.baseURL + 'user/deletes/', {user: that.selectUsers})
+            .post(that.baseURL + 'market/deletes/', {user: that.selectUsers})
             .then(res => {
               if (res.data.code === 1) {
                 that.students = res.data.data;
@@ -316,6 +330,10 @@ export default {
       that.userForm.images = this.getImageBySno(row.username);
       that.userForm.imageUrl = that.baseURL + "media/" + that.userForm.image;
     },
+    showBigImage(url) {
+      this.BigImageVisible = true;
+      this.bigImageUrl = url;
+    },
     updateUser(row) {
       let that = this;
       that.dialogTitle = "修改信息";
@@ -329,14 +347,14 @@ export default {
     },
     deleteUser(row) {
       //等待确认
-      this.$confirm('是否确认删除用户信息【用户名：' + row.username + '】', '提示', {
+      this.$confirm('是否确认删除商品信息【商品名称：' + row.name + '】', '提示', {
         confirmButtonText: '确定',
         cancelButtonText: '取消',
         type: 'warning'
       }).then(() => {
         let that = this;
         axios
-            .post(that.baseURL + 'user/delete/', { username: row.username })
+            .post(that.baseURL + 'market/delete/', { id: row.id })
             .then(res => {
               if (res.data.code === 1) {
                 //获取所有信息
@@ -424,9 +442,9 @@ export default {
       })
     },
     //根据id获取image
-    getImageBySno(username) {
+    getImageBySno(name) {
       for( let oneUser of this.users){
-        if(oneUser.username === username){
+        if(oneUser.name === name){
           return oneUser.image;
         }
       }
@@ -447,6 +465,7 @@ export default {
           that.userForm.image = res.data.name;
           //拼接
           that.userForm.imageUrl = that.baseURL + 'media/' + res.data.name;
+          //element.imageUrl = that.baseURL + 'media/' + res.data.name;
         } else {
           that.$message.error(res.data.msg);
         }
@@ -461,11 +480,12 @@ export default {
       let that = this;
 
       axios
-          .post(that.baseURL + "/users/query/", {
+          .post(that.baseURL + "/markets/query/", {
             inputstr: that.inputstr
           })
           .then(function (res) {
             if (res.data.code === 1) {
+              console.log(res);
               that.users = res.data.data;
               that.total = that.users.length;
               that.getPageUsers();
@@ -484,7 +504,7 @@ export default {
     getUsers: function () {
       let that = this;
       axios
-          .get(this.baseURL + "getAll/mygoods/")
+          .get(this.baseURL + "getAll/markets/")
           .then(function (res) {
             //console.log(res);
             if (res.data.code === 1) {
@@ -515,7 +535,7 @@ export default {
     },
     addUser() {
       let that = this;
-      that.dialogTitle = "添加用户";
+      that.dialogTitle = "添加商品";
       that.dialogFormVisible = true;
     },
     closeDialog(formName) {
@@ -543,18 +563,18 @@ export default {
       let lastUrl;
       let message;
       if (that.isEdit === true) {
-        lastUrl = 'user/update/';
+        lastUrl = 'market/update/';
         message = "修改成功！";
       } else {
-        lastUrl = 'addUser/';
+        lastUrl = 'addMarket/';
         message = "注册成功！";
       }
-
+      //console.log(that.userForm.imageUrl);
       axios
           .post(that.baseURL + lastUrl, that.userForm)
           .then(res => {
             if (res.data.code === 1) {
-              console.log(that.userForm.images);
+              //console.log(that.userForm.image);
               that.Users = res.data.data;
               that.total = res.data.data.length;
               that.$message({

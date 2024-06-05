@@ -122,10 +122,10 @@
               <template slot-scope="scope">
                 <el-button type="success" size="mini" icon="el-icon-more"
                            @click="viewUser(scope.row)" circle></el-button>
-                <el-button type="primary" size="mini" icon="el-icon-edit"
-                           @click="updateUser(scope.row)" circle></el-button>
-                <el-button type="danger" size="mini" icon="el-icon-delete"
-                           @click="deleteUser(scope.row)" circle></el-button>
+<!--                <el-button type="primary" size="mini" icon="el-icon-edit"-->
+<!--                           @click="updateUser(scope.row)" circle></el-button>-->
+<!--                <el-button type="danger" size="mini" icon="el-icon-delete"-->
+<!--                           @click="deleteUser(scope.row)" circle></el-button>-->
               </template>
             </el-table-column>
           </el-table>
@@ -295,7 +295,7 @@ export default {
     },
     //批量删除
     deleteUsers() {
-      this.$confirm('是否确认批量删除' + this.selectUsers.length + '个用户信息', '提示', {
+      this.$confirm('是否确认批量删除' + this.selectUsers.length + '个商品信息', '提示', {
         confirmButtonText: '确定',
         confirmButtonClass: '取消',
         type: 'warning'
@@ -347,7 +347,7 @@ export default {
     },
     deleteUser(row) {
       //等待确认
-      this.$confirm('是否确认删除用户信息【用户名：' + row.id + '】', '提示', {
+      this.$confirm('是否确认删除商品信息【商品名称：' + row.name + '】', '提示', {
         confirmButtonText: '确定',
         cancelButtonText: '取消',
         type: 'warning'

@@ -181,7 +181,7 @@
               </el-form-item>
             </el-form>
             <el-row style="text-align: right;">
-              <el-button type="primary" size="mini"
+              <el-button type="primary" size="mini" :disabled="isView"
                          @click="submitAddForm('userForm')">确认</el-button>
               <el-button type="info" size="mini" @click="closeDialog('userForm')">取消</el-button>
             </el-row>
@@ -330,7 +330,7 @@ export default {
     },
     deleteUser(row) {
       //等待确认
-      this.$confirm('是否确认删除用户信息【用户名：' + row.username + '】', '提示', {
+      this.$confirm('是否确认删除管理员信息【用户名：' + row.username + '】', '提示', {
         confirmButtonText: '确定',
         cancelButtonText: '取消',
         type: 'warning'
