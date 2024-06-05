@@ -187,7 +187,7 @@
               </el-form-item>
             </el-form>
             <el-row style="text-align: right;">
-              <el-button type="primary" size="mini"
+              <el-button type="primary" size="mini" :disabled="isView"
                          @click="submitAddForm('userForm')">确认</el-button>
               <el-button type="info" size="mini" @click="closeDialog('userForm')">取消</el-button>
             </el-row>
@@ -347,14 +347,14 @@ export default {
     },
     deleteUser(row) {
       //等待确认
-      this.$confirm('是否确认删除用户信息【用户名：' + row.username + '】', '提示', {
+      this.$confirm('是否确认删除用户信息【用户名：' + row.id + '】', '提示', {
         confirmButtonText: '确定',
         cancelButtonText: '取消',
         type: 'warning'
       }).then(() => {
         let that = this;
         axios
-            .post(that.baseURL + 'market/delete/', { username: row.username })
+            .post(that.baseURL + 'market/delete/', { id: row.id })
             .then(res => {
               if (res.data.code === 1) {
                 //获取所有信息
@@ -485,6 +485,7 @@ export default {
           })
           .then(function (res) {
             if (res.data.code === 1) {
+              console.log(res);
               that.users = res.data.data;
               that.total = that.users.length;
               that.getPageUsers();
