@@ -24,7 +24,7 @@
             <i class="el-icon-takeaway-box"></i>
             <span slot="title">跳蚤广场</span>
           </el-menu-item>
-          <el-menu-item index="/mygoods">
+          <el-menu-item index="/userGoods">
             <i class="el-icon-search"></i>
             <span slot="title">我的商品</span>
           </el-menu-item>
@@ -51,7 +51,13 @@
             <el-dropdown style="display: flex; align-items: center;" placement="bottom">
               <div style="display: flex;align-items: center; cursor:default" >
                 <img src="../assets/logo.png" style="width: 40px;height: 40px">
-                <span>管理员</span>
+                <div>
+                  <el-col :span="10">&nbsp;</el-col>
+                </div>
+                <div>
+                  <el-col :span="10">&nbsp;</el-col>
+                </div>
+                <span>用户</span>
               </div>
               <el-dropdown-menu slot="dropdown" >
                 <el-dropdown-item>个人信息</el-dropdown-item>

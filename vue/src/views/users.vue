@@ -53,6 +53,12 @@
             <el-dropdown style="display: flex; align-items: center;" placement="bottom">
               <div style="display: flex;align-items: center; cursor:default" >
                 <img src="../assets/logo.png" style="width: 40px;height: 40px">
+                <div>
+                  <el-col :span="10">&nbsp;</el-col>
+                </div>
+                <div>
+                  <el-col :span="10">&nbsp;</el-col>
+                </div>
                 <span>管理员</span>
               </div>
               <el-dropdown-menu slot="dropdown" >
