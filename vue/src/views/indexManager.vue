@@ -81,7 +81,7 @@
             </div>
           </el-card>
         </el-main>
-        <el-footer style="height: 30px;">失物招领系统 版权所有：zoushuxing | 2024-3-1</el-footer>
+        <el-footer style="height: 30px;">跳蚤市场系统 版权所有：zsx & zzk | 2024.6.6</el-footer>
       </el-container>
     </el-container>
   </div>
